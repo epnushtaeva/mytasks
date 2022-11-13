@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
@@ -41,7 +42,7 @@ public class TaskBoardServiceImpl implements TaskBoardService {
         AjaxResultSuccessDto result = new AjaxResultSuccessDto();
         TaskBoard taskBoard = this.taskBoardRepository.getOne(boardId);
 
-        if(!this.isUserNoHasRights(taskBoard, principal)){
+        if(this.isUserNoHasRights(taskBoard, principal)){
             result.setRes("no_rights");
         }
 
@@ -105,16 +106,17 @@ public class TaskBoardServiceImpl implements TaskBoardService {
     @Override
     @Transactional
     public List<ListTaskBoardDto> getBoards(TaskBoardsFilterDto taskBoardsFilterDto, Principal principal){
-        if(taskBoardsFilterDto.getFilters() == null){
-            taskBoardsFilterDto.setFilters(new HashMap<>());
-        }
-
         User user = this.userService.getUserByUserName(principal.getName());
 
-        taskBoardsFilterDto.getFilters().put("currentUserId", String.valueOf(user.getId()));
+        List<TaskBoard> boards = this.taskBoardRepository.findAll().stream().filter(taskBoard -> taskBoard.getBoardUsers().stream().map(TaskBoardUser::getUser).map(User::getId).collect(Collectors.toList()).contains(user.getId())).collect(Collectors.toList());
 
-        Specification<TaskBoard> filterSpecification = SpecificationUtils.getTaskBoardsSpecification(taskBoardsFilterDto.getFilters());
-        return this.taskBoardMapper.taskBoardsToListDtos(this.taskBoardRepository.findAll(filterSpecification));
+        if(!CollectionUtils.isEmpty(taskBoardsFilterDto.getFilters())){
+            if(taskBoardsFilterDto.getFilters().containsKey("name") && !ObjectUtils.isEmpty(taskBoardsFilterDto.getFilters().get("name"))){
+                boards = boards.stream().filter(taskBoard -> taskBoard.getName().toLowerCase().contains(taskBoardsFilterDto.getFilters().get("name").toLowerCase())).collect(Collectors.toList());
+            }
+        }
+
+        return this.taskBoardMapper.taskBoardsToListDtos(boards);
     }
 
     @Override

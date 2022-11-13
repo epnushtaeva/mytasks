@@ -28,7 +28,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileInfoDto editProfile(Principal principal, ProfileEditDto profileEditDto){
         User currentUser = this.userRepository.findOneByLogin(principal.getName());
-        currentUser.setFullName(profileEditDto.getFullNane());
+        currentUser.setFullName(profileEditDto.getFullName());
 
         if(!StringUtils.isEmpty(profileEditDto.getPassword())) {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);

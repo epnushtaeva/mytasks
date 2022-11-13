@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping(value = "/api/profile")
+@RequestMapping(value = "/api/profile_inf")
 @AllArgsConstructor
 public class EditProfileController {
     private final ProfileService profileService;

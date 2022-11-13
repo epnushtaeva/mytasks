@@ -27,8 +27,10 @@ public class SpecificationUtils {
                     Join usersJoin = root.join("boardUsers", JoinType.INNER);
                     predicates.add(criteriaBuilder.equal(usersJoin.get("userId"), Long.valueOf(filter.getValue())));
                 } else {
-                    predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get(filter.getKey()), "%" + filter.getValue().toUpperCase() + "%"),
-                            criteriaBuilder.like(root.get(filter.getKey()), "%" + filter.getValue().toLowerCase() + "%")));
+                    predicates.add(criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.upper(root.get(filter.getKey())), "%" + filter.getValue().toUpperCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get(filter.getKey())), "%" + filter.getValue().toLowerCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.upper(root.get(filter.getKey())), filter.getValue().toUpperCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.upper(root.get(filter.getKey())), "%"  + filter.getValue().toUpperCase())));
                 }
             }
 
@@ -45,9 +47,10 @@ public class SpecificationUtils {
                     continue;
                 }
 
-                    predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get(filter.getKey()), "%" + filter.getValue().toUpperCase() + "%"),
-                            criteriaBuilder.like(root.get(filter.getKey()), "%" + filter.getValue().toLowerCase() + "%")));
-            }
+                String value = filter.getValue().toLowerCase();
+                predicates.add(criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.lower(root.get(filter.getKey())), "%" + value + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(filter.getKey())), value + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(filter.getKey())), "%"  + value))); }
 
             return criteriaBuilder.and(SpecificationUtils.predicatesToArray(predicates));
         };

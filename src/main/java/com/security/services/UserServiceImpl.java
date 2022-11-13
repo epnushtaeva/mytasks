@@ -13,6 +13,7 @@ import com.utils.SpecificationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.transaction.Transactional;
@@ -39,7 +40,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<UserListDto> findUsers(UserFilterDto filterDto){
-        List<User> users = this.userRepository.findAll(SpecificationUtils.getUsersSpecification(filterDto.getFilters()));
+        List<User> users = this.userRepository.findAll();
+
+        if(!CollectionUtils.isEmpty(filterDto.getFilters())){
+            if(filterDto.getFilters().containsKey("login") && !ObjectUtils.isEmpty(filterDto.getFilters().get("login"))){
+                users = users.stream().filter(user -> user.getLogin().toLowerCase().contains(filterDto.getFilters().get("login").toLowerCase())).collect(Collectors.toList());
+            }
+
+            if(filterDto.getFilters().containsKey("fullName") && !ObjectUtils.isEmpty(filterDto.getFilters().get("fullName"))){
+                users = users.stream().filter(user -> user.getFullName().toLowerCase().contains(filterDto.getFilters().get("fullName").toLowerCase())).collect(Collectors.toList());
+            }
+        }
+
         return this.userMapper.usersToListDtos(users);
     }
 

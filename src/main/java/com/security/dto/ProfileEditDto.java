@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ProfileEditDto {
     private String password;
-    private String fullNane;
+    private String fullName;
 }

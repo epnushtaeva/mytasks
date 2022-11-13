@@ -23,7 +23,7 @@ public class UsersController {
         return this.userService.findUsers(userFilterDto);
     }
 
-    @PostMapping("/add_to_board")
+    @PostMapping("/board_add")
     public UserListDto addUserToBoard(@RequestBody AddUserToTaskBoardDto addUserToTaskBoardDto, Principal principal){
         return this.userService.addUserToTaskBoard(addUserToTaskBoardDto, principal);
     }
