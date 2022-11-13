@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      - id:  insert_users_data
+      - author:  Ekaterina Nushtaeva
+      - changes:
+          - insert:
+              - columns:
+                  - column:
+                      - name:  login
+                      - value:  'admin'
+                  - column:
+                      - name: password
+                      - value:  '$2y$12$Bq9huDbeLoNIVlLLyGmeKOLakIQg5.Vh43JygoDaqSg4pExvT.dae'
+                  - column:
+                      - name:  full_name
+                      - value:  'Никита'
+              - tableName:  users

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  #tables
+  - include:
+      - file: /db/changelog/tables/tasks.yaml
+  - include:
+      - file: /db/changelog/tables/tasks_boards.yaml
+  - include:
+      - file: /db/changelog/tables/tasks_statuses.yaml
+  - include:
+      - file: /db/changelog/tables/users.yaml
+  - include:
+      - file: /db/changelog/tables/board_users.yaml
+
+  #data
+  - include:
+      - file: /db/changelog/data/users.yaml

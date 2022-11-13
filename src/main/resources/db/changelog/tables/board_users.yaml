@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      - id:  create_boardusers_table
+      - author:  Ekaterina Nushtaeva
+      - changes:
+          - createTable:
+              - tableName:  board_users
+              - columns:
+                  - column:
+                      - name:  id
+                      - type:  int
+                      - autoIncrement: true
+                      - constraints:
+                          - primaryKey:  true
+                          - nullable:  false
+                  - column:
+                      - name:  user_id
+                      - type:  bigint
+                      - constraints:
+                          - nullable:  false
+                  - column:
+                      - name: board_id
+                      - type: bigint
+                      - constraints:
+                          - nullable: false

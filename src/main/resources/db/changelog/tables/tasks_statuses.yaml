@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      - id:  create_tasks_status_table
+      - author:  Ekaterina Nushtaeva
+      - changes:
+          - createTable:
+              - tableName:  tasks_statuses
+              - columns:
+                  - column:
+                      - name:  id
+                      - type:  int
+                      - autoIncrement: true
+                      - constraints:
+                          - primaryKey:  true
+                          - nullable:  false
+                  - column:
+                      - name:  name
+                      - type:  varchar(250)
+                      - constraints:
+                          - nullable:  false
+                  - column:
+                      - name: board_id
+                      - type: bigint
+                      - constraints:
+                          - nullable: false

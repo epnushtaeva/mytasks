@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      - id:  create_tasks_boards_table
+      - author:  Ekaterina Nushtaeva
+      - changes:
+          - createTable:
+              - tableName:  tasks_boards
+              - columns:
+                  - column:
+                      - name:  id
+                      - type:  int
+                      - autoIncrement: true
+                      - constraints:
+                          - primaryKey:  true
+                          - nullable:  false
+                  - column:
+                      - name:  name
+                      - type:  varchar(250)
+                      - constraints:
+                          - nullable:  false
