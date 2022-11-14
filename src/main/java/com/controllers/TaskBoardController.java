@@ -35,6 +35,11 @@ public class TaskBoardController {
         return this.taskBoardService.editBoard(editTaskBoardDto, principal);
     }
 
+    @PostMapping("/remove")
+    public AjaxResultSuccessDto removeBoard(@RequestBody RemoveDto removeDto, Principal principal){
+        return this.taskBoardService.removeBoard(removeDto, principal);
+    }
+
     @GetMapping("/get")
     public ViewTaskBoardDto getBoard(@RequestParam("board_id") long boardId, Principal principal){
         return this.taskBoardService.getBoard(boardId, principal);

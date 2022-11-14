@@ -1,8 +1,10 @@
 package com.tasks.services;
 
+import com.security.dto.AjaxResultSuccessDto;
 import com.tasks.dto.CreateTaskStatusDto;
 import com.tasks.dto.EditTaskStatusDto;
 import com.tasks.dto.ListStatusDto;
+import com.tasks.dto.RemoveDto;
 import com.tasks.entities.TaskBoard;
 import com.tasks.entities.TaskStatus;
 
@@ -19,4 +21,8 @@ public interface TaskStatusService {
     EditTaskStatusDto editStatus(EditTaskStatusDto taskStatusDto, Principal principal);
 
     EditTaskStatusDto createStatus(CreateTaskStatusDto taskStatusDto, Principal principal);
+
+    AjaxResultSuccessDto removeStatus(RemoveDto removeDto, Principal principal);
+
+    void removeAllByBoardId(long boardId);
 }

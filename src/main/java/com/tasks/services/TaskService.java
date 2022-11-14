@@ -18,4 +18,6 @@ public interface TaskService {
     ViewTaskDto changeUser(ChangeTaskUserDto changeTaskUserDto, Principal principal);
 
     ViewTaskDto changeStatus(ChangeTaskStatusDto changeTaskStatusDto, Principal principal);
+
+    void removeAllByStatusId(long statusId);
 }

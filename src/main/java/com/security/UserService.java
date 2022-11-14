@@ -20,6 +20,8 @@ public interface UserService {
 
     AjaxResultSuccessDto removeUserFromBoard(AddUserToTaskBoardDto addUserToTaskBoardDto, Principal principal);
 
+    AjaxResultSuccessDto removeUserFromBoard(long userId, long boardId);
+
     List<UserListDto> getUsersForBoard(long boardId, Principal principal);
 
     List<TaskBoardUserDto> addUsersForBoard(TaskBoard taskBoard, List<Long> userIds);

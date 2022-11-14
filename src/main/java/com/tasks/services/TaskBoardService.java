@@ -20,4 +20,6 @@ public interface TaskBoardService {
     List<ListTaskBoardDto> getBoards(TaskBoardsFilterDto taskBoardsFilterDto, Principal principal);
 
     ViewTaskBoardDto getBoard(long boardId, Principal principal);
+
+    AjaxResultSuccessDto removeBoard(RemoveDto removeDto, Principal principal);
 }

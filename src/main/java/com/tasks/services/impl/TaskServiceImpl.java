@@ -123,6 +123,16 @@ public class TaskServiceImpl implements TaskService {
         return this.taskMapper.taskToViewDto(task);
     }
 
+    @Override
+    @Transactional
+    public void removeAllByStatusId(long statusId){
+        List<Task> statusTasks = this.taskRepository.findAllByStatusId(statusId);
+
+        for(Task task: statusTasks){
+            this.taskRepository.removeById(task.getId());
+        }
+    }
+
     private boolean isUserNoHasRights(TaskBoard taskBoard, Principal principal){
         User user = this.userService.getUserByUserName(principal.getName());
 

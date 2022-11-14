@@ -1,15 +1,19 @@
 package com.tasks.services.impl;
 
 import com.security.UserService;
+import com.security.dto.AjaxResultSuccessDto;
 import com.security.entities.TaskBoardUser;
 import com.security.entities.User;
 import com.tasks.dto.CreateTaskStatusDto;
 import com.tasks.dto.EditTaskStatusDto;
 import com.tasks.dto.ListStatusDto;
+import com.tasks.dto.RemoveDto;
+import com.tasks.entities.Task;
 import com.tasks.entities.TaskBoard;
 import com.tasks.entities.TaskStatus;
 import com.tasks.mappers.TaskStatusMapper;
 import com.tasks.repositories.TaskBoardRepository;
+import com.tasks.repositories.TaskRepository;
 import com.tasks.repositories.TaskStatusRepository;
 import com.tasks.services.TaskStatusService;
 import lombok.AllArgsConstructor;
@@ -28,6 +32,8 @@ import java.util.stream.Collectors;
 public class TaskStatusServiceImpl  implements TaskStatusService {
     private final TaskStatusRepository taskStatusRepository;
     private final TaskBoardRepository taskBoardRepository;
+
+    private final TaskRepository taskRepository;
 
     private final TaskStatusMapper taskStatusMapper;
     private final UserService userService;
@@ -105,6 +111,39 @@ public class TaskStatusServiceImpl  implements TaskStatusService {
         taskStatus.setBoard(this.taskBoardRepository.getOne(taskStatusDto.getBoardId()));
         this.taskStatusRepository.save(taskStatus);
         return this.taskStatusMapper.taskStatusToEditDto(taskStatus);
+    }
+
+    @Override
+    @Transactional
+    public AjaxResultSuccessDto removeStatus(RemoveDto removeDto, Principal principal){
+        TaskStatus taskStatus = this.taskStatusRepository.getOne(removeDto.getId());
+
+        if(this.isUserNoHasRights(taskStatus.getBoard(), principal)){
+            return null;
+        }
+
+        this.removeAllTasksByStatusId(taskStatus.getId());
+        this.taskStatusRepository.removeById(taskStatus.getId());
+        return new AjaxResultSuccessDto();
+    }
+
+    @Override
+    @Transactional
+    public void removeAllByBoardId(long boardId){
+        List<TaskStatus> taskStatuses = this.taskStatusRepository.findAllByBoardId(boardId);
+
+        for(TaskStatus taskStatus: taskStatuses){
+            this.removeAllTasksByStatusId(taskStatus.getId());
+            this.taskStatusRepository.removeById(taskStatus.getId());
+        }
+    }
+
+    private void removeAllTasksByStatusId(long statusId){
+        List<Task> statusTasks = this.taskRepository.findAllByStatusId(statusId);
+
+        for(Task task: statusTasks){
+            this.taskRepository.removeById(task.getId());
+        }
     }
 
     private List<CreateTaskStatusDto> getDefaultBoardStatusesDtos(){

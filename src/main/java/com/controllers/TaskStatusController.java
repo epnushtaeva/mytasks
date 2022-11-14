@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.security.dto.AjaxResultSuccessDto;
 import com.tasks.dto.*;
 import com.tasks.services.TaskStatusService;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,11 @@ public class TaskStatusController {
     @PostMapping("/edit")
     public EditTaskStatusDto editTaskStatus(@RequestBody EditTaskStatusDto editTaskStatusDto, Principal principal){
         return this.taskStatusService.editStatus(editTaskStatusDto, principal);
+    }
+
+    @PostMapping("/remove")
+    public AjaxResultSuccessDto removeStatus(@RequestBody RemoveDto removeDto, Principal principal){
+        return this.taskStatusService.removeStatus(removeDto, principal);
     }
 
     @GetMapping("/list")

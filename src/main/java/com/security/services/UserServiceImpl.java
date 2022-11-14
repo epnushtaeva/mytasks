@@ -97,6 +97,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public AjaxResultSuccessDto removeUserFromBoard(long userId, long boardId){
+        TaskBoardUser existingUser = this.taskBoardUserRepository.findOneByUserIdAndBoardId(userId, boardId);
+
+        this.taskBoardUserRepository.removeById(existingUser.getId());
+
+        return new AjaxResultSuccessDto();
+    }
+
+    @Override
+    @Transactional
     public List<UserListDto> getUsersForBoard(long boardId, Principal principal){
        List<TaskBoardUser> taskBoardUsers = this.taskBoardUserRepository.findAllByBoardId(boardId);
        return this.userMapper.usersToListDtos(taskBoardUsers.stream().map(TaskBoardUser::getUser).collect(Collectors.toList()));

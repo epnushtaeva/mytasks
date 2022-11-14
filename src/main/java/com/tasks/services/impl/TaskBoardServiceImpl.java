@@ -135,6 +135,25 @@ public class TaskBoardServiceImpl implements TaskBoardService {
         return viewTaskBoardDto;
     }
 
+    @Override
+    @Transactional
+    public AjaxResultSuccessDto removeBoard(RemoveDto removeDto, Principal principal){
+        TaskBoard taskBoard = this.taskBoardRepository.getOne(removeDto.getId());
+
+        if(this.isUserNoHasRights(taskBoard, principal)){
+            return null;
+        }
+
+        this.taskStatusService.removeAllByBoardId(taskBoard.getId());
+        this.taskBoardRepository.removeById(taskBoard.getId());
+
+        for(TaskBoardUser taskBoardUser: taskBoard.getBoardUsers()){
+          this.userService.removeUserFromBoard(taskBoardUser.getUserId(), taskBoard.getId());
+        }
+
+        return new AjaxResultSuccessDto();
+    }
+
     private boolean isUserNoHasRights(TaskBoard taskBoard, Principal principal){
         User user = this.userService.getUserByUserName(principal.getName());
 
