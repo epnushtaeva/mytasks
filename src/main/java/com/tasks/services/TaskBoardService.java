@@ -2,11 +2,13 @@ package com.tasks.services;
 
 import com.security.dto.AjaxResultSuccessDto;
 import com.tasks.dto.*;
+import com.tasks.entities.TaskBoard;
 
 import java.security.Principal;
 import java.util.List;
 
 public interface TaskBoardService {
+
     AjaxResultSuccessDto checkUserHasRights(long boardId, Principal principal);
 
     EditTaskBoardDto createBoard(CreateTaskBoardDto boardDto, Principal principal);

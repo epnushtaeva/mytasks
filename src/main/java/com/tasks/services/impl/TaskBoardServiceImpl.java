@@ -11,9 +11,7 @@ import com.tasks.repositories.TaskBoardRepository;
 import com.tasks.services.TaskBoardService;
 import com.tasks.services.TaskService;
 import com.tasks.services.TaskStatusService;
-import com.utils.SpecificationUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -21,7 +19,6 @@ import org.springframework.util.ObjectUtils;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 

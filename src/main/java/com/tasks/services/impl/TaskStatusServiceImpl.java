@@ -11,7 +11,6 @@ import com.tasks.entities.TaskStatus;
 import com.tasks.mappers.TaskStatusMapper;
 import com.tasks.repositories.TaskBoardRepository;
 import com.tasks.repositories.TaskStatusRepository;
-import com.tasks.services.TaskBoardService;
 import com.tasks.services.TaskStatusService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,11 @@ public class TaskStatusServiceImpl  implements TaskStatusService {
 
     private final TaskStatusMapper taskStatusMapper;
     private final UserService userService;
+
+    @Override
+    public TaskStatus getStatusById(long statusId){
+        return this.taskStatusRepository.getOne(statusId);
+    }
 
     @Override
     @Transactional

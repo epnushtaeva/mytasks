@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface UserService {
     User getUserByUserName(String userName);
 
+    User getUserById(long id);
+
     List<UserListDto> findUsers(UserFilterDto filterDto);
 
     UserListDto addUserToTaskBoard(AddUserToTaskBoardDto addUserToTaskBoardDto, Principal principal);

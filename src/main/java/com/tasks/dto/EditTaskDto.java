@@ -5,12 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ViewTaskDto {
+public class EditTaskDto {
     private long id;
     private String description;
     private long statusId;
-    private String statusName;
-    private long userId;
-    private String userFullName;
-    private String userLogin;
+    private Long userId;
 }

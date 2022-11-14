@@ -9,7 +9,6 @@ import com.security.repositories.TaskBoardUserRepository;
 import com.security.repositories.UserRepository;
 import com.tasks.entities.TaskBoard;
 import com.tasks.repositories.TaskBoardRepository;
-import com.utils.SpecificationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,10 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findOneByLogin(userName);
     }
 
+    @Override
+    public User getUserById(long id){
+        return this.userRepository.getOne(id);
+    }
     @Override
     @Transactional
     public List<UserListDto> findUsers(UserFilterDto filterDto){
